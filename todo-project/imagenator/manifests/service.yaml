@@ -2,12 +2,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: todo-project-backend-svc
+  name: todo-project-imagenator-svc
 spec:
   type: ClusterIP
   selector:
-    app: todo-project-backend
+    app: todo-project-imagenator
   ports:
-    - protocol: TCP
-      port: 8080
+    - port: 8080
+      protocol: TCP
       targetPort: 8080

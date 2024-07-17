@@ -1,0 +1,27 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-project-imagenator-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-project-imagenator
+  template:
+    metadata:
+      labels:
+        app: todo-project-imagenator
+    spec:
+      volumes:
+        - name: data-volume
+          persistentVolumeClaim:
+            claimName: todo-project-data-pvc
+      containers:
+        - name: main
+          image: 3nd3r1/todo-project-imagenator:latest
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: data-volume
+              mountPath: /usr/src/app/data

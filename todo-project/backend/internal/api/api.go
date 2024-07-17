@@ -3,8 +3,8 @@ package api
 import (
 	"github.com/gin-gonic/gin"
 	"log/slog"
-	"todo-backend/internal/api/routes"
-	"todo-backend/internal/config"
+	"todo-project-backend/internal/api/routes"
+	"todo-project-backend/internal/config"
 )
 
 type API struct {

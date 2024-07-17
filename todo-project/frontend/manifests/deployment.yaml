@@ -2,19 +2,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: todo-project-backend-dep
+  name: todo-project-frontend-dep
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: todo-project-backend
+      app: todo-project-frontend
   template:
     metadata:
       labels:
-        app: todo-project-backend
+        app: todo-project-frontend
     spec:
       containers:
         - name: main
-          image: 3nd3r1/todo-project-backend:latest
+          image: 3nd3r1/todo-project-frontend:latest
           ports:
-            - containerPort: 8080
+            - containerPort: 3000

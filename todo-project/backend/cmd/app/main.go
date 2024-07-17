@@ -4,8 +4,8 @@ import (
 	"context"
 	"log/slog"
 	"os"
-	"todo-backend/internal/api"
-	"todo-backend/internal/config"
+	"todo-project-backend/internal/api"
+	"todo-project-backend/internal/config"
 )
 
 func main() {
