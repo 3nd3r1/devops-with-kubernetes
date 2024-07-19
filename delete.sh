@@ -6,7 +6,6 @@ kubectl delete service todo-project-imagenator-svc
 
 kubectl delete ingress log-output-ingress
 kubectl delete ingress todo-project-ingress
-kubectl delete ingress todo-project-backend-ingress
 
 kubectl delete deployment log-output-dep
 kubectl delete deployment ping-pong-dep
@@ -14,7 +13,5 @@ kubectl delete deployment todo-project-backend-dep
 kubectl delete deployment todo-project-frontend-dep
 kubectl delete deployment todo-project-imagenator-dep
 
-kubectl delete pvc log-output-ping-pong-pvc
-kubectl delete pv log-output-ping-pong-pv
 kubectl delete pvc todo-project-data-pvc
 kubectl delete pv todo-project-data-pv
