@@ -11,20 +11,20 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: todo-project-backend-svc
+                name: todo-project-svc
                 port:
                   number: 8080
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: todo-project-frontend-svc
+                name: todo-project-svc
                 port:
-                  number: 8080
+                  number: 3000
           - path: /imagenator
             pathType: Prefix
             backend:
               service:
-                name: todo-project-imagenator-svc
+                name: todo-project-svc
                 port:
-                  number: 8080
+                  number: 5000

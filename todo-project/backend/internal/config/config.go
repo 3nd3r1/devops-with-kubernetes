@@ -8,6 +8,7 @@ import (
 type Config struct {
 	Port string `env:"PORT, default=8080"`
 	Ip   string `env:"IP, default=0.0.0.0"`
+	DataDir string `env:"DATA_DIR, default=/usr/src/app/data"`
 }
 
 func NewConfig() *Config {

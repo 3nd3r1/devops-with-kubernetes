@@ -32,7 +32,7 @@ func generateNewImage(url string, dataDir string) error {
 	}
 
 	timestamp := time.Now().Add(time.Minute * 60).Unix()
-	if err := os.WriteFile(dataDir + "/generated-timestamp.txt", []byte(fmt.Sprint(timestamp)), 0644); err != nil {
+	if err := os.WriteFile(dataDir+"/generated-timestamp.txt", []byte(fmt.Sprint(timestamp)), 0644); err != nil {
 		return err
 	}
 
@@ -58,7 +58,14 @@ func main() {
 	logger := slog.New(jsonHandler)
 
 	url := "https://picsum.photos/1200"
-	dataDir := "/usr/src/app/data"
+	dataDir, ok := os.LookupEnv("DATA_DIR")
+	if !ok {
+		dataDir = "/usr/src/app/data"
+	}
+	port, ok := os.LookupEnv("PORT")
+	if !ok {
+		port = "5000"
+	}
 
 	router := gin.Default()
 	router.StaticFile("/imagenator/image", dataDir+"/image.jpg")
@@ -88,8 +95,8 @@ func main() {
 		}
 	}()
 
-	logger.Info("Starting server at 0.0.0.0:8080")
-	if err := router.Run("0.0.0.0:8080"); err != nil {
+	logger.Info("Starting server at 0.0.0.0:" + port)
+	if err := router.Run("0.0.0.0:" + port); err != nil {
 		logger.Error(err.Error())
 		os.Exit(1)
 	}
