@@ -5,6 +5,7 @@ import (
 	"hash/fnv"
 	"io"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
@@ -42,7 +43,17 @@ func main() {
 		bodyString := string(bodyBytes)
 		requests := strings.Split(bodyString, " ")[1]
 
-		ctx.String(200, timestamp+" "+hash(timestamp)+"\n"+"Ping / Pongs: "+requests)
+		data, err := os.ReadFile("/usr/src/app/data/information.txt")
+		if err != nil {
+			ctx.String(500, err.Error())
+			return
+		}
+
+		ctx.String(200, strings.Join([]string{
+			"file content: " + string(data)[:len(data)-1],
+			"env variable: MESSAGE=" + os.Getenv("MESSAGE"),
+			timestamp + " " + hash(timestamp),
+			"Ping / Pongs: " + requests}, "\n"))
 	})
 
 	go func() {
