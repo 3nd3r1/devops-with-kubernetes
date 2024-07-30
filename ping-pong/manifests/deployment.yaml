@@ -19,3 +19,18 @@ spec:
           image: 3nd3r1/ping-pong:latest
           ports:
             - containerPort: 8080
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ping-pong-database-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ping-pong-database-secret
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_HOST
+              value: "ping-pong-database-svc"
+            - name: POSTGRES_PORT
+              value: "5432"

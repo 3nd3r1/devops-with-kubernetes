@@ -12,3 +12,17 @@ spec:
     - port: 2345
       protocol: TCP
       targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ping-pong-database-svc
+  namespace: applications
+spec:
+  type: ClusterIP
+  selector:
+    app: ping-pong-database
+  ports:
+    - port: 5432
+      protocol: TCP
+      targetPort: 5432
