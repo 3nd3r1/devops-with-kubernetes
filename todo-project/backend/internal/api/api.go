@@ -1,33 +1,33 @@
 package api
 
 import (
-	"github.com/gin-gonic/gin"
-	"log/slog"
 	"todo-project-backend/internal/api/routes"
 	"todo-project-backend/internal/config"
+	"todo-project-backend/internal/logger"
+
+	"github.com/gin-gonic/gin"
 )
 
 type API struct {
-	Config *config.Config
-	Logger *slog.Logger
 	Router *gin.Engine
 }
 
-func NewAPI(config *config.Config, logger *slog.Logger) *API {
+func NewAPI() (*API, error) {
 	router := gin.Default()
-	routes.SetupRoutes(router)
+	err := routes.SetupRoutes(router)
+	if err != nil {
+		return nil, err
+	}
 
 	return &API{
-		Config: config,
-		Logger: logger,
 		Router: router,
-	}
+	}, nil
 }
 
 func (api *API) Run() error {
-	api.Logger.Info("Server started in port " + api.Config.Port)
+	logger.Logger.Info("Starting server in port " + config.Config.Port)
 
-	err := api.Router.Run(api.Config.Ip + ":" + api.Config.Port)
+	err := api.Router.Run(config.Config.Ip + ":" + config.Config.Port)
 	if err != nil {
 		return err
 	}

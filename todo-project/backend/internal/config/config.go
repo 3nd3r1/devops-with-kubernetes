@@ -5,20 +5,22 @@ import (
 	"github.com/sethvargo/go-envconfig"
 )
 
-type Config struct {
+type EnvConfig struct {
 	Port string `env:"PORT, default=8080"`
 	Ip   string `env:"IP, default=0.0.0.0"`
-	DataDir string `env:"DATA_DIR, default=/usr/src/app/data"`
+	PostgresHost string `env:"POSTGRES_HOST, default=localhost"`
+	PostgresPort string `env:"POSTGRES_PORT, default=5432"`
+	PostgresUser string `env:"POSTGRES_USER, default=postgres"`
+	PostgresPassword string `env:"POSTGRES_PASSWORD"`
+	PostgresDatabase string `env:"POSTGRES_DATABASE, default=postgres"`
 }
 
-func NewConfig() *Config {
-	return &Config{}
-}
+var Config *EnvConfig
 
-func (config *Config) ParseEnv(ctx context.Context) error {
-	if err := envconfig.Process(ctx, config); err != nil {
+func Init(ctx context.Context) error {
+	Config = &EnvConfig{}
+	if err := envconfig.Process(ctx, Config); err != nil {
 		return err
 	}
-
 	return nil
 }
