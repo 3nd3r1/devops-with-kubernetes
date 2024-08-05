@@ -28,10 +28,6 @@ spec:
           env:
             - name: PORT
               value: "3000"
-            - name: NEXT_PUBLIC_BACKEND_URL
-              value: "http://todo-project-svc:8080/api"
-            - name: NEXT_PUBLIC_IMAGENATOR_URL
-              value: "http://localhost:8081/imagenator/image"
           volumeMounts:
             - name: next-cache
               mountPath: /usr/src/app/.next/cache

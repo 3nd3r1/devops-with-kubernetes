@@ -1,14 +1,16 @@
 "use client";
+
 import { useState } from "react";
 
 import { createTodo } from "@/services/todo";
+import { mutate } from "swr";
 
 const TodoForm = () => {
   const [title, setTitle] = useState<string>("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    createTodo({ title });
+    createTodo({ title }).then(() => mutate("todos"));
     setTitle("");
   };
 

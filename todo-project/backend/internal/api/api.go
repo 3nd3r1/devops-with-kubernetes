@@ -14,6 +14,7 @@ type API struct {
 
 func NewAPI() (*API, error) {
 	router := gin.Default()
+
 	err := routes.SetupRoutes(router)
 	if err != nil {
 		return nil, err

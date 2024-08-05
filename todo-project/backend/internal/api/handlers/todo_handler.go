@@ -20,6 +20,7 @@ func NewTodoHandler(tr *repositories.TodoRepository) *TodoHandler {
 
 func (th *TodoHandler) CreateTodo(ctx *gin.Context) {
 	var newTodo models.NewTodo
+
 	if err := ctx.ShouldBindJSON(&newTodo); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -34,6 +35,7 @@ func (th *TodoHandler) CreateTodo(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+
 	ctx.JSON(http.StatusCreated, createdTodo)
 }
 
