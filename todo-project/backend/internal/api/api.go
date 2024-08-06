@@ -1,6 +1,7 @@
 package api
 
 import (
+	"todo-project-backend/internal/api/middleware"
 	"todo-project-backend/internal/api/routes"
 	"todo-project-backend/internal/config"
 	"todo-project-backend/internal/logger"
@@ -13,7 +14,11 @@ type API struct {
 }
 
 func NewAPI() (*API, error) {
-	router := gin.Default()
+	router := gin.New()
+
+	router.Use(middleware.RequestLogger())
+	router.Use(middleware.ResponseLogger())
+	router.Use(gin.Recovery())
 
 	err := routes.SetupRoutes(router)
 	if err != nil {
