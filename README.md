@@ -4,4 +4,4 @@ My answers for the [DevOps with Kubernetes course](https://devopswithkubernetes.
 
 ## Status
 
-Completed 1/5 parts
+Completed 2/5 parts
