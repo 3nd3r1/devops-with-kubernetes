@@ -36,12 +36,12 @@ spec:
           volumeMounts:
             - name: ping-pong-database-pgdata
               mountPath: /var/lib/postgresql/data
+              subPath: pgdata
   volumeClaimTemplates:
     - metadata:
         name: ping-pong-database-pgdata
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: local-path
         resources:
           requests:
             storage: 100Mi
