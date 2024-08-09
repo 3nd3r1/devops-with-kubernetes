@@ -31,11 +31,12 @@ func main() {
 	for {
 		_, err = db.Query("CREATE TABLE IF NOT EXISTS ping_pong(requests int)")
 		if err != nil {
-			fmt.Println("Error connecting to database: "+ err.Error())
+			fmt.Println("Error connecting to database: " + err.Error())
 			fmt.Println("Retrying in 10 seconds...")
 			time.Sleep(10 * time.Second)
 			continue
 		}
+		fmt.Println("Connected to database")
 		break
 	}
 
@@ -52,6 +53,10 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	router.GET("/", func(ctx *gin.Context) {
+		ctx.String(200, "ok")
+	})
 
 	router.GET("/pingpong", func(ctx *gin.Context) {
 		ctx.String(200, "pong "+fmt.Sprint(requests))
