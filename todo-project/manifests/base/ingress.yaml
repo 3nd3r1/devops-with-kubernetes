@@ -7,7 +7,8 @@ metadata:
     project: todo-project
 spec:
   rules:
-    - http:
+    - host: todo-project.fbi.com
+      http:
         paths:
           - path: /api
             pathType: Prefix

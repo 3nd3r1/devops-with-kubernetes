@@ -12,10 +12,10 @@ spec:
   metrics:
     - name: cpu-limit-monitor
       interval: 60s
-      count: 10
-      successCondition: result[0] < 5.0
+      count: 5
+      successCondition: result[0] < 10.0
       provider:
         prometheus:
-          address: http://kube-prometheus-stack-1725-prometheus.prometheus.svc.cluster.local:9090
+          address: http://kube-prometheus-stack-1729-prometheus.prometheus.svc.cluster.local:9090
           query: |
-            sum(rate(container_cpu_usage_seconds_total{namespace="{{args.namespace}}",pod=~"todo-project-(.*)"}[1m])) * 1000
+            sum(rate(container_cpu_usage_seconds_total{namespace="{{args.namespace}}"}[1m])) * 1000

@@ -1,0 +1,18 @@
+---
+- op: replace
+  path: /spec/template/spec/containers/1/env/3/value
+  value: staging-todo-project-database-svc
+- op: replace
+  path: /spec/template/spec/volumes/1/persistentVolumeClaim/claimName
+  value: staging-todo-project-data-pvc
+- op: replace
+  path: /spec/template/spec/containers/1/env/5/value
+  value: nats://staging-todo-project-nats:4222
+- op: replace
+  path: /spec/strategy/canary/steps/2/analysis/templates/0/templateName
+  value: staging-cpu-limit-monitor
+- op: add
+  path: /spec/strategy/canary/steps/2/analysis/args
+  value:
+    - name: namespace
+      value: staging

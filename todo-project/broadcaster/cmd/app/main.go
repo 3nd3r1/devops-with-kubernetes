@@ -23,13 +23,20 @@ func main() {
 	var natsConnection *nats.Conn
 
 	natsUrl := os.Getenv("NATS_URL")
+	onlyUseStdout := os.Getenv("ONLY_USE_STDOUT") == "true"
 	discordWebhookUrl := os.Getenv("DISCORD_WEBHOOK_URL")
 
     http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 
-	discordWebhookClient, err := webhook.NewWithURL(discordWebhookUrl)
-	if err != nil {
-		panic(err)
+	var discordWebhookClient webhook.Client
+	if onlyUseStdout {
+		fmt.Println("Only using stdout")
+	} else {
+		fmt.Println("Sending messages to Discord")
+		discordWebhookClient, err = webhook.NewWithURL(discordWebhookUrl)
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	for {
@@ -51,12 +58,15 @@ func main() {
 			panic(err)
 		}
 
-		message, err := discordWebhookClient.CreateContent(fmt.Sprintf("A todo was created: %s", messageTodo.Title))
-		if err != nil {
-			panic(err)
-		}
+		fmt.Printf("Todo: %s\n", messageTodo.Title)
 
-		fmt.Println("Sent message: ", message)
+		if !onlyUseStdout {
+			_, err := discordWebhookClient.CreateContent(fmt.Sprintf("A todo was created: %s", messageTodo.Title))
+			if err != nil {
+				panic(err)
+			}
+			fmt.Println("Sent message to Discord")
+		}
 	})
 
 	fmt.Println("Listening for messages...")

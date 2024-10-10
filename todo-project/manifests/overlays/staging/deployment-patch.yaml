@@ -1,0 +1,7 @@
+---
+- op: replace
+  path: /spec/template/spec/containers/0/env/0/value
+  value: "true"
+- op: replace
+  path: /spec/template/spec/containers/0/env/1/value
+  value: nats://staging-todo-project-nats:4222
