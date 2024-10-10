@@ -1,0 +1,66 @@
+---
+name: Todo Project - Staging
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  BACKEND_IMAGE: todo-project-backend
+  FRONTEND_IMAGE: todo-project-frontend
+  IMAGENATOR_IMAGE: todo-project-imagenator
+  BACKUP_AGENT_IMAGE: todo-project-backup-agent
+  BROADCASTER_IMAGE: todo-project-broadcaster
+
+jobs:
+  build-publish:
+    name: Build, Publish, Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set up Kustomize
+        uses: imranismail/setup-kustomize@v2
+
+      - name: Build
+        working-directory: ./todo-project
+        run: |-
+          docker build -t "${{ secrets.DOCKERHUB_USERNAME }}/${BACKEND_IMAGE}:${GITHUB_SHA}" -f ./backend/build/Dockerfile ./backend
+          docker build -t "${{ secrets.DOCKERHUB_USERNAME }}/${FRONTEND_IMAGE}:${GITHUB_SHA}" -f ./frontend/build/Dockerfile ./frontend
+          docker build -t "${{ secrets.DOCKERHUB_USERNAME }}/${IMAGENATOR_IMAGE}:${GITHUB_SHA}" -f ./imagenator/build/Dockerfile ./imagenator
+          docker build -t "${{ secrets.DOCKERHUB_USERNAME }}/${BACKUP_AGENT_IMAGE}:${GITHUB_SHA}" -f ./backup-agent/build/Dockerfile ./backup-agent
+          docker build -t "${{ secrets.DOCKERHUB_USERNAME }}/${BROADCASTER_IMAGE}:${GITHUB_SHA}" -f ./broadcaster/build/Dockerfile ./broadcaster
+
+      - name: Publish
+        run: |-
+          docker push "${{ secrets.DOCKERHUB_USERNAME }}/${BACKEND_IMAGE}:${GITHUB_SHA}"
+          docker push "${{ secrets.DOCKERHUB_USERNAME }}/${FRONTEND_IMAGE}:${GITHUB_SHA}"
+          docker push "${{ secrets.DOCKERHUB_USERNAME }}/${IMAGENATOR_IMAGE}:${GITHUB_SHA}"
+          docker push "${{ secrets.DOCKERHUB_USERNAME }}/${BACKUP_AGENT_IMAGE}:${GITHUB_SHA}"
+          docker push "${{ secrets.DOCKERHUB_USERNAME }}/${BROADCASTER_IMAGE}:${GITHUB_SHA}"
+
+      - name: Update image in kustomization.yaml
+        working-directory: ./todo-project/manifests/overlays/staging
+        run: |-
+          kustomize edit set image TODO_PROJECT_BACKEND/IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/${BACKEND_IMAGE}:${GITHUB_SHA}
+          kustomize edit set image TODO_PROJECT_FRONTEND/IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/${FRONTEND_IMAGE}:${GITHUB_SHA}
+          kustomize edit set image TODO_PROJECT_IMAGENATOR/IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/${IMAGENATOR_IMAGE}:${GITHUB_SHA}
+          kustomize edit set image TODO_PROJECT_BACKUP_AGENT/IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/${BACKUP_AGENT_IMAGE}:${GITHUB_SHA}
+          kustomize edit set image TODO_PROJECT_BROADCASTER/IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/${BROADCASTER_IMAGE}:${GITHUB_SHA}
+
+      - name: Commit kustomization.yaml
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: "./todo-project/manifests/overlays/staging/kustomization.yaml"
+          fetch: true
+          pull: "--rebase --autostash"
+          message: "uplifted todo-project-staging to ${{ github.sha }}"

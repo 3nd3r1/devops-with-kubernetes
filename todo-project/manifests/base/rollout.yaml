@@ -13,9 +13,14 @@ spec:
   strategy:
     canary:
       steps:
+        - setWeight: 100
+        - pause:
+            duration: 1m
+            until: allAvailable
         - analysis:
             templates:
               - templateName: cpu-limit-monitor
+            abortOnFailure: true
   template:
     metadata:
       labels:
