@@ -3,6 +3,8 @@ name: Log Output - Build and Publish
 
 on:
   push:
+    branches:
+      - main
 
 env:
   LOG_OUTPUT_IMAGE: log-output

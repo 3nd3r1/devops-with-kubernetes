@@ -6,6 +6,7 @@ metadata:
   labels:
     project: todo-project
 spec:
+  storageClassName: todo-project-data
   accessModes:
     - ReadWriteOnce
   resources:

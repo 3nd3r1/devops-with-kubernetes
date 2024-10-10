@@ -3,6 +3,8 @@ name: Ping Pong - Build and Publish
 
 on:
   push:
+    branches:
+      - main
 
 env:
   PING_PONG_IMAGE: ping-pong
