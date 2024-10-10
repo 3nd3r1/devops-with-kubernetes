@@ -2,14 +2,28 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - manifests/service.yaml
-  - manifests/ingress.yaml
-  - manifests/rollout.yaml
-  - manifests/deployment.yaml
-  - manifests/analysistemplate.yaml
-  - manifests/cronjob.yaml
-  - manifests/statefulset.yaml
-  - manifests/persistentvolumeclaim.yaml
+  - ../../base
+patches:
+  - path: backup-cronjob-patch.yaml
+  - target:
+      kind: CronJob
+      name: todo-project-wikipedia-todo-cronjob
+    path: wiki-cronjob-patch.yaml
+  - target:
+      kind: Deployment
+      name: todo-project-broadcaster-dep
+    path: deployment-patch.yaml
+  - target:
+      kind: Rollout
+      name: todo-project-dep
+    path: rollout-patch.yaml
+  - target:
+      kind: Ingress
+      name: todo-project-ingress
+    path: ingress-patch.yaml
+
+namePrefix: staging-
+
 images:
   - name: TODO_PROJECT_BACKEND/IMAGE
     newName: 3nd3r1/todo-project-backend

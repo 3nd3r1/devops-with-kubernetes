@@ -19,6 +19,8 @@ spec:
         - name: broadcaster
           image: TODO_PROJECT_BROADCASTER/IMAGE
           env:
+            - name: ONLY_USE_STDOUT
+              value: "false"
             - name: NATS_URL
               value: nats://todo-project-nats:4222
             - name: DISCORD_WEBHOOK_URL

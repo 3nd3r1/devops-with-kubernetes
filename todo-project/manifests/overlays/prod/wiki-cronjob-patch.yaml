@@ -1,0 +1,4 @@
+---
+- op: replace
+  path: /spec/jobTemplate/spec/template/spec/containers/0/env/0/value
+  value: "http://prod-todo-project-svc:8080/api"

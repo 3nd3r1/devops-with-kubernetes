@@ -1,0 +1,13 @@
+---
+- op: replace
+  path: /spec/rules/0/http/paths/0/path
+  value: /prod/api
+- op: replace
+  path: /spec/rules/0/http/paths/1/path
+  value: /prod
+- op: replace
+  path: /spec/rules/0/http/paths/2/path
+  value: /prod/imagenator
+- op: replace
+  path: /metadata/annotations/traefik.ingress.kubernetes.io/router.middlewares
+  value: production-prod-todo-project-stripprefix-middleware@kubernetescrd

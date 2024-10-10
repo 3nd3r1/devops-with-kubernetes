@@ -26,7 +26,7 @@ func SetupRoutes(router *gin.Engine) error {
 	})
 
 	router.GET("/healthz", func(c *gin.Context) {
-		if !database.IsReady {
+		if !database.IsReady || !nats.IsReady {
 			c.String(http.StatusServiceUnavailable, "not ready")
 			return
 		}

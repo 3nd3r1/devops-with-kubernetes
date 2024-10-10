@@ -5,6 +5,8 @@ metadata:
   name: todo-project-ingress
   labels:
     project: todo-project
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: default-todo-project-stripprefix-middleware@kubernetescrd
 spec:
   rules:
     - http:
