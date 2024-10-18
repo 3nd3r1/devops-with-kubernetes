@@ -1,40 +1,44 @@
----
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ../../base
+- ../../base
 patches:
-  - target:
-      kind: CronJob
-      name: todo-project-backup-cronjob
-    path: backup-cronjob-patch.yaml
-  - target:
-      kind: CronJob
-      name: todo-project-wikipedia-todo-cronjob
-    path: wiki-cronjob-patch.yaml
-  - target:
-      kind: Deployment
-      name: todo-project-broadcaster-dep
-    path: deployment-patch.yaml
-  - target:
-      kind: Rollout
-      name: todo-project-dep
-    path: rollout-patch.yaml
-  - target:
-      kind: Ingress
-      name: todo-project-ingress
-    path: ingress-patch.yaml
+- path: backup-cronjob-patch.yaml
+  target:
+    kind: CronJob
+    name: todo-project-backup-cronjob
+- path: wiki-cronjob-patch.yaml
+  target:
+    kind: CronJob
+    name: todo-project-wikipedia-todo-cronjob
+- path: deployment-patch.yaml
+  target:
+    kind: Deployment
+    name: todo-project-broadcaster-dep
+- path: rollout-patch.yaml
+  target:
+    kind: Rollout
+    name: todo-project-dep
+- path: ingress-patch.yaml
+  target:
+    kind: Ingress
+    name: todo-project-ingress
 
 namePrefix: prod-
 
 images:
-  - name: TODO_PROJECT_BACKEND/IMAGE
-    newName: 3nd3r1/todo-project-backend
-  - name: TODO_PROJECT_FRONTEND/IMAGE
-    newName: 3nd3r1/todo-project-frontend
-  - name: TODO_PROJECT_IMAGENATOR/IMAGE
-    newName: 3nd3r1/todo-project-imagenator
-  - name: TODO_PROJECT_BACKUP_AGENT/IMAGE
-    newName: 3nd3r1/todo-project-backup-agent
-  - name: TODO_PROJECT_BROADCASTER/IMAGE
-    newName: 3nd3r1/todo-project-broadcaster
+- name: TODO_PROJECT_BACKEND/IMAGE
+  newName: 3nd3r1/todo-project-backend
+  newTag: v1
+- name: TODO_PROJECT_BACKUP_AGENT/IMAGE
+  newName: 3nd3r1/todo-project-backup-agent
+  newTag: v1
+- name: TODO_PROJECT_BROADCASTER/IMAGE
+  newName: 3nd3r1/todo-project-broadcaster
+  newTag: v1
+- name: TODO_PROJECT_FRONTEND/IMAGE
+  newName: 3nd3r1/todo-project-frontend
+  newTag: v1
+- name: TODO_PROJECT_IMAGENATOR/IMAGE
+  newName: 3nd3r1/todo-project-imagenator
+  newTag: v1
