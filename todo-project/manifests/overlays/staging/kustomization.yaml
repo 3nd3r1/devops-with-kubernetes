@@ -1,37 +1,41 @@
----
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ../../base
+- ../../base
 patches:
-  - path: backup-cronjob-patch.yaml
-  - target:
-      kind: CronJob
-      name: todo-project-wikipedia-todo-cronjob
-    path: wiki-cronjob-patch.yaml
-  - target:
-      kind: Deployment
-      name: todo-project-broadcaster-dep
-    path: deployment-patch.yaml
-  - target:
-      kind: Rollout
-      name: todo-project-dep
-    path: rollout-patch.yaml
-  - target:
-      kind: Ingress
-      name: todo-project-ingress
-    path: ingress-patch.yaml
+- path: backup-cronjob-patch.yaml
+- path: wiki-cronjob-patch.yaml
+  target:
+    kind: CronJob
+    name: todo-project-wikipedia-todo-cronjob
+- path: deployment-patch.yaml
+  target:
+    kind: Deployment
+    name: todo-project-broadcaster-dep
+- path: rollout-patch.yaml
+  target:
+    kind: Rollout
+    name: todo-project-dep
+- path: ingress-patch.yaml
+  target:
+    kind: Ingress
+    name: todo-project-ingress
 
 namePrefix: staging-
 
 images:
-  - name: TODO_PROJECT_BACKEND/IMAGE
-    newName: 3nd3r1/todo-project-backend
-  - name: TODO_PROJECT_FRONTEND/IMAGE
-    newName: 3nd3r1/todo-project-frontend
-  - name: TODO_PROJECT_IMAGENATOR/IMAGE
-    newName: 3nd3r1/todo-project-imagenator
-  - name: TODO_PROJECT_BACKUP_AGENT/IMAGE
-    newName: 3nd3r1/todo-project-backup-agent
-  - name: TODO_PROJECT_BROADCASTER/IMAGE
-    newName: 3nd3r1/todo-project-broadcaster
+- name: TODO_PROJECT_BACKEND/IMAGE
+  newName: 3nd3r1/todo-project-backend
+  newTag: 76baed9731c1d1a3643b7dee1ecd9bdd5016f460
+- name: TODO_PROJECT_BACKUP_AGENT/IMAGE
+  newName: 3nd3r1/todo-project-backup-agent
+  newTag: 76baed9731c1d1a3643b7dee1ecd9bdd5016f460
+- name: TODO_PROJECT_BROADCASTER/IMAGE
+  newName: 3nd3r1/todo-project-broadcaster
+  newTag: 76baed9731c1d1a3643b7dee1ecd9bdd5016f460
+- name: TODO_PROJECT_FRONTEND/IMAGE
+  newName: 3nd3r1/todo-project-frontend
+  newTag: 76baed9731c1d1a3643b7dee1ecd9bdd5016f460
+- name: TODO_PROJECT_IMAGENATOR/IMAGE
+  newName: 3nd3r1/todo-project-imagenator
+  newTag: 76baed9731c1d1a3643b7dee1ecd9bdd5016f460
